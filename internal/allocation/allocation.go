@@ -8,8 +8,8 @@ import (
 
 	"github.com/pion/logging"
 	"github.com/pion/stun"
-	"github.com/pion/turn/v2/internal/ipnet"
-	"github.com/pion/turn/v2/internal/proto"
+	"github.com/mehrvarz/turn/v2/internal/ipnet"
+	"github.com/mehrvarz/turn/v2/internal/proto"
 )
 
 // Allocation is tied to a FiveTuple and relays traffic

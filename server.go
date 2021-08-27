@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/pion/logging"
-	"github.com/pion/turn/v2/internal/allocation"
-	"github.com/pion/turn/v2/internal/proto"
-	"github.com/pion/turn/v2/internal/server"
+	"github.com/mehrvarz/turn/v2/internal/allocation"
+	"github.com/mehrvarz/turn/v2/internal/proto"
+	"github.com/mehrvarz/turn/v2/internal/server"
 )
 
 const (
