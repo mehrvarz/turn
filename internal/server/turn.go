@@ -14,16 +14,6 @@ import (
 func handleAllocateRequest(r Request, m *stun.Message) error {
 	r.Log.Debugf("received AllocateRequest from %s", r.SrcAddr.String())
 
-	// 1. The server MUST require that the request be authenticated.  This
-	//    authentication MUST be done using the long-term credential
-	//    mechanism of [https://tools.ietf.org/html/rfc5389#section-10.2.2]
-	//    unless the client and server agree to use another mechanism through
-	//    some procedure outside the scope of this document.
-	messageIntegrity, hasAuth, err := authenticateRequest(r, m, stun.MethodAllocate)
-	if !hasAuth {
-		return err
-	}
-
 	fiveTuple := &allocation.FiveTuple{
 		SrcAddr:  r.SrcAddr,
 		DstAddr:  r.Conn.LocalAddr(),
@@ -40,8 +30,19 @@ func handleAllocateRequest(r Request, m *stun.Message) error {
 	//    a 437 (Allocation Mismatch) error.
 	if alloc := r.AllocationManager.GetAllocation(fiveTuple); alloc != nil {
 		msg := buildMsg(m.TransactionID, stun.NewType(stun.MethodAllocate, stun.ClassErrorResponse), &stun.ErrorCodeAttribute{Code: stun.CodeAllocMismatch})
-		return buildAndSendErr(r.Conn, r.SrcAddr, errRelayAlreadyAllocatedForFiveTuple, msg...)
+		/*return*/ buildAndSendErr(r.Conn, r.SrcAddr, errRelayAlreadyAllocatedForFiveTuple, msg...)
+		return nil
 	}
+
+    // 1. The server MUST require that the request be authenticated.  This
+    //    authentication MUST be done using the long-term credential
+    //    mechanism of [https://tools.ietf.org/html/rfc5389#section-10.2.2]
+    //    unless the client and server agree to use another mechanism through
+    //    some procedure outside the scope of this document.
+    messageIntegrity, hasAuth, err := authenticateRequest(r, m, stun.MethodAllocate)
+    if !hasAuth {
+        return err
+    }
 
 	// 3. The server checks if the request contains a REQUESTED-TRANSPORT
 	//    attribute.  If the REQUESTED-TRANSPORT attribute is not included
