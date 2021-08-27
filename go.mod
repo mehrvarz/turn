@@ -1,4 +1,4 @@
-module github.com/pion/turn/v2
+module github.com/mehrvarz/turn/v2
 
 go 1.13
 
