@@ -166,7 +166,7 @@ func (s *Server) readLoop(p net.PacketConn, allocationManager *allocation.Manage
 			ChannelBindTimeout: s.channelBindTimeout,
 			Nonces:             s.nonces,
 		}); err != nil {
-			// tmtmtm: was: fmt.Errorf
+			// tmtmtm: was: s.fmt.Errorf()
 			s.log.Debugf("error when handling datagram: %v", err)
 		}
 	}
