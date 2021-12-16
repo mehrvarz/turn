@@ -6,10 +6,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/pion/logging"
-	"github.com/pion/stun"
 	"github.com/mehrvarz/turn/v2/internal/ipnet"
 	"github.com/mehrvarz/turn/v2/internal/proto"
+	"github.com/pion/logging"
+	"github.com/pion/stun"
 )
 
 // Allocation is tied to a FiveTuple and relays traffic
@@ -65,6 +65,8 @@ func (a *Allocation) AddPermission(p *Permission) {
 	a.permissionsLock.RLock()
 	existedPermission, ok := a.permissions[fingerprint]
 	a.permissionsLock.RUnlock()
+
+	a.log.Infof("AddPermission %s existed %v", fingerprint, ok)
 
 	if ok {
 		existedPermission.refresh(permissionTimeout)
