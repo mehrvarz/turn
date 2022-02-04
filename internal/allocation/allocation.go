@@ -3,6 +3,7 @@ package allocation
 
 import (
 	"net"
+	"reflect"
 	"sync"
 	"time"
 
@@ -76,6 +77,7 @@ func (a *Allocation) AddPermission(p *Permission) {
 	p.allocation = a
 	a.permissionsLock.Lock()
 	a.permissions[fingerprint] = p
+	a.log.Infof("AddPermission permissions %v", reflect.ValueOf(a.permissions).MapKeys())
 	a.permissionsLock.Unlock()
 
 	p.start(permissionTimeout)
@@ -255,7 +257,7 @@ func (a *Allocation) packetHandler(m *Manager) {
 				a.log.Errorf("Failed to send DataIndication from allocation %v %v", srcAddr, err)
 			}
 		} else {
-			a.log.Infof("No Permission or Channel exists for %v on allocation %v !", srcAddr, a.RelayAddr.String())
+//			a.log.Infof("No Permission or Channel exists for %v on allocation %v !", srcAddr, a.RelayAddr.String())
 		}
 	}
 }
