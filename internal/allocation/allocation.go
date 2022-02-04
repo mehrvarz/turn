@@ -67,7 +67,7 @@ func (a *Allocation) AddPermission(p *Permission) {
 	existedPermission, ok := a.permissions[fingerprint]
 	a.permissionsLock.RUnlock()
 
-	a.log.Infof("AddPermission %s existed %v", fingerprint, ok)
+//	a.log.Infof("AddPermission %s existed %v", fingerprint, ok)
 
 	if ok {
 		existedPermission.refresh(permissionTimeout)
@@ -77,7 +77,7 @@ func (a *Allocation) AddPermission(p *Permission) {
 	p.allocation = a
 	a.permissionsLock.Lock()
 	a.permissions[fingerprint] = p
-	a.log.Infof("AddPermission permissions %v", reflect.ValueOf(a.permissions).MapKeys())
+//	a.log.Infof("AddPermission permissions %v", reflect.ValueOf(a.permissions).MapKeys())
 	a.permissionsLock.Unlock()
 
 	p.start(permissionTimeout)
